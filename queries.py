@@ -1,15 +1,16 @@
 import json
 import os
 
-# aggregation operators in sql queries
-agg_ops = ['', 'MAX', 'MIN', 'COUNT', 'SUM', 'AVG']
+
+agg_ops = ['', 'MAX', 'MIN', 'COUNT', 'SUM', 'AVG'] # aggregation operators in sql queries
 
 dirname = os.path.abspath(os.path.dirname(__file__))
 
 def analyse_queries(path,set_name):
 	""" get the total number of queries and the number of queries having different aggregators specified in agg_opps"""
-	json_queries=[]
-	aggregator_counts=[0 for i in range(6)] #aggregator_counts[i] represents count of queries in the file path having aggregrator agg_ops[i] 
+	
+	json_queries=[] 
+	aggregator_counts=[0 for i in range(6)] # aggregator_counts[i] represents count of queries in the file path having aggregrator agg_ops[i] 
 	
 	try:
 		with open(path) as f:
@@ -17,14 +18,17 @@ def analyse_queries(path,set_name):
 				if line!=None:
 					json_query = json.loads(line)
 					json_queries.append(json_query)
-	except e:
-		print(e)
+	except err:
+		print(err)
 
+	# to get the number of queries having each type of aggregator
 	for query in json_queries:
-		aggregator_counts[query["sql"]["agg"]]=aggregator_counts[query["sql"]["agg"]]+1
+		aggregator_counts[query["sql"]["agg"]]+=1
 	
 	total_queries=len(json_queries)
-	
+
+
+	# print results for each set
 	print(set_name)
 	
 	print("Total number of queries",end="")
